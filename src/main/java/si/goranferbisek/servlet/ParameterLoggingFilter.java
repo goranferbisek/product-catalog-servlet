@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebFilter;
 /**
  * Servlet Filter implementation class ParameterLoggingFilter
  */
-@WebFilter(urlPatterns = "/*", asyncSupported = true)
+@WebFilter("/*")
 public class ParameterLoggingFilter implements Filter {
 
     /**
