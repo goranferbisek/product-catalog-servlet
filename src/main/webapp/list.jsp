@@ -47,23 +47,7 @@ body {
 						<tbody>
 							<tr>
 								<td align="center" width="100%" valign="middle">
-									<form id="item-form" action="CatalogServlet" name="task-form" method="post"
-										action="CatalogServlet" enctype="application/x-www-form-urlencoded">
-
-										<div>
-											<label>Product Name:</label><input id="productName"
-												type="text" name="name" />
-										</div>
-										<div>
-											<label>Manufacturer:</label><input type="text"
-												name="manufacturer" />
-										</div>
-										<div>
-											<label>SKU:</label><input type="text" name="sku" />
-										</div>
-
-										<input type="submit" value="Submit" />
-									</form>
+									${message}
 								</td>
 							</tr>
 						</tbody>

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.AsyncContext;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -41,30 +42,15 @@ public class CatalogServlet extends HttpServlet {
 		String manufacturer = request.getParameter("manufacturer");
 		String sku = request.getParameter("sku");
 		
-		Catalog.addItem(new CatalogItem(name, manufacturer, sku));
-		
 		// generate a response back to the browser
 		response.setHeader("someHeader", "someHeaderValue");
 		response.addCookie(new Cookie("someCookie", "someCookieValue"));
 		
-		PrintWriter out = response.getWriter();
+		Catalog.addItem(new CatalogItem(name, manufacturer, sku));
 		
-		out.println("<html>");
-		out.println("<head></head>");
-		out.println("<body>");
-		out.println("<table>");
-		
-		for (CatalogItem item : Catalog.getItems()) {
-			out.println("<tr>");
-			out.println("<td>");
-			out.print(item.getName());
-			out.println("</td>");
-			out.println("</tr>");
-		}
-		
-		out.println("</table>");
-		out.println("</body>");
-		out.println("</html>");
+		request.setAttribute("message", name);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("list.jsp");
+		dispatcher.forward(request, response);
 	}
 
 }
