@@ -46,7 +46,7 @@ public class CatalogServlet extends HttpServlet {
 		
 		Catalog.addItem(new CatalogItem(name, manufacturer, sku));
 		
-		request.setAttribute("message", name);
+		request.setAttribute("items", Catalog.getItems());
 		RequestDispatcher dispatcher = request.getRequestDispatcher("list.jsp");
 		dispatcher.forward(request, response);
 	}
