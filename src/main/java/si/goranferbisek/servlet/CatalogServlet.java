@@ -2,8 +2,8 @@ package si.goranferbisek.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Iterator;
 
+import javax.servlet.AsyncContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class CatalogServlet
  */
-@WebServlet("/CatalogServlet")
+@WebServlet(urlPatterns = "/CatalogServlet", asyncSupported = true)
 public class CatalogServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -37,6 +37,29 @@ public class CatalogServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		AsyncContext asyncContext = request.startAsync();
+		
+		asyncContext.start(new Runnable() {	
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(5000);
+					System.out.println("Print the response");
+					System.out.println("Response return by: " + Thread.currentThread().getName());
+					returnResponse(request, response);
+					asyncContext.complete();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		System.out.println("Initial Request: " + Thread.currentThread().getName());
+	}
+
+	private void returnResponse(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String name = request.getParameter("name");
 		String manufacturer = request.getParameter("manufacturer");
 		String sku = request.getParameter("sku");
